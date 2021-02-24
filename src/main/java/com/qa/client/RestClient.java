@@ -1,10 +1,13 @@
 package com.qa.client;
 
+import netscape.javascript.JSObject;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,6 +38,16 @@ httpClient.execute() method returns the response "CloseableHttpResponse" interfa
 So the complete response is stored in CloseableHttpResponse
 And fetch all the details, in our test case/test method */
         CloseableHttpResponse closebaleHttpResponse =  httpClient.execute(httpget); //hit the GET URL
+
+        int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
+        System.out.println("Status code: "+statusCode);
+
+        String responseString = EntityUtils.toString(closebaleHttpResponse.getEntity(),"UTF-8");
+
+        JSONObject jsonResponse = new JSONObject(responseString);
+
+        System.out.println("Response: "+jsonResponse);
+
         return closebaleHttpResponse;
 
     }
